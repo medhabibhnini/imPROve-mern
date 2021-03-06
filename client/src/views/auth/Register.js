@@ -9,10 +9,18 @@ export default class Register extends Component {
     this.state={
       
         data:{
-            name:"",
-            email:"",
+            firstname:"",
+            lastname:"",
             password:"",
-            password_confirmation:""
+            username:"",
+            email:"",
+            birthdate:"",
+            sexe:"",
+            cin:"",
+            image:"",
+            level:"",
+            university:"",
+            domain:"",
         },
         errors:{}
     
@@ -29,14 +37,22 @@ export default class Register extends Component {
     
     event.preventDefault();
 
-    console.log(this.state.data.name);
+    console.log(this.state.data);
 
-    axios.post(`http://127.0.0.1:8000/api/auth/register`, {   
+    axios.post(`http://localhost:3000/auth`, {   
         
-        name: this.state.data.name,
-        email: this.state.data.email,
+        firstname: this.state.data.firstname,
+        lastname: this.state.data.lastname,
         password : this.state.data.password,
-        password_confirmation: this.state.data.password_confirmation,
+        username: this.state.data.username,
+        email:this.state.data.email,
+        birthdate:this.state.data.birthdate,
+        sexe:this.state.data.sexe,
+        cin:this.state.data.cin,
+        image:this.state.data.image,
+        level:this.state.data.level,
+        university:this.state.data.university,
+        domain:this.state.data.domain,
 
       }).then(response => { 
         this.props.history.push("/auth/login");
@@ -86,17 +102,46 @@ export default class Register extends Component {
                         className="block uppercase text-gray-700 text-xs font-bold mb-2"
                         htmlFor="grid-password"
                       >
-                        Name
+                        Firstname
                       </label>
                       <input
                         type="text"
-                        onChange={this.handleChange('name')}
-                        name="name"
+                        onChange={this.handleChange('firstname')}
+                        name="firstname"
                         className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                        placeholder="Name"
+                        placeholder="firstname"
                       />
                     </div>
-  
+                    <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        Lastname
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('lastname')}
+                        name="lastname"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="lastname"
+                      />
+                    </div>
+                    <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        username
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('username')}
+                        name="username"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="username"
+                      />
+                    </div>
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -129,7 +174,9 @@ export default class Register extends Component {
                       />
                     </div>
 
-                    <div className="relative w-full mb-3">
+
+
+                   {/*<div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-gray-700 text-xs font-bold mb-2"
                         htmlFor="grid-password"
@@ -143,13 +190,123 @@ export default class Register extends Component {
                         className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                         placeholder="Confirm password"
                       />
+                    </div>*/
+  }
+  
+  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        birthdate
+                      </label>
+                      <input
+                        type="date"
+                        onChange={this.handleChange('birthdate')}
+                        name="birthdate"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="bithdate"
+                      />
+                    </div>
+                    <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        sexe
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('sexe')}
+                        name="sexe"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="sexe"
+                      />
+                    </div>
+                      
+  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        cin
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('cin')}
+                        name="cin"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="cin"
+                      />
+                    </div>
+                    
+  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        image
+                      </label>
+                      <input
+                        type="file"
+                        onChange={this.handleChange('image')}
+                        name="image"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="image"
+                      />
+                    </div>
+                      
+  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        level
+                      </label>
+                      <input
+                        type="level"
+                        onChange={this.handleChange('level')}
+                        name="level"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="level"
+                      />
+                    </div>
+                      
+  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        university
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('university')}
+                        name="university"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="university"
+                      />
                     </div>
   
-  
+                    <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        domaine
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChange('domain')}
+                        name="domain"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="domaine"
+                      />
+                    </div>
                     <div className="text-center mt-6">
                       <button
                         className="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="submit"
+                        type="submit" onClick={this.handleSubmit}
                       >
                         Create Account
                       </button>
