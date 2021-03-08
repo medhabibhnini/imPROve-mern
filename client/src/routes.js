@@ -16,6 +16,7 @@
 
 */
 import Dashboard from "views/Dashboard.js";
+import ForgotPassword from "views/ForgotPassword";
 import Icons from "views/Icons.js";
 import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
@@ -69,6 +70,14 @@ var routes = [
     rtlName: "قائمة الجدول",
     icon: "tim-icons icon-puzzle-10",
     component: TableList,
+    layout: "/admin",
+  },
+  {
+    path: "/auth/forgot",
+    name: "Forum Management",
+    rtlName: "قائمة الجدول",
+    icon: "tim-icons icon-puzzle-10",
+    component: ForgotPassword,
     layout: "/admin",
   },
   
