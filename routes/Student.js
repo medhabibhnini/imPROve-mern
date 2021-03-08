@@ -1,7 +1,12 @@
-const router = require("express").Router();
+
 const Student = require("../Model/Student");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const express = require('express');
+const router = express.Router();
+
+//import auth from '../middleware/auth.js'
+
 //register
 router.post("/",async (req,res)=>{
    
@@ -34,73 +39,44 @@ try {
      const savedStudent= await   newStudent.save()
         .then(()=>res.json('student added !'))
         .catch(err => res.status(400).json('Error' + err));
-
-        const token = jwt.sign(
-            {
-              user: savedStudent._id,
-            },
-            process.env.JWT_SECRET="KbtacQQ6xs4qnjpGTVA9N6368FTR42j3GjXWMF5Z4as7eAPBwp"
-          );
-         res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-          }).status();  }
-    catch(err)
+const token = jwt.sign({email:savedStudent.email, id: savedStudent._id},'test',{expiresIn:"1h"})
+         
+res.status(200).json({savedStudent, token})
+         }
+    catch(error)
     {
-        console.error(err);
-        res.status(500).send();
+        
+        res.status(500).json({message:'something went wrong'});
 
     }
 
         
 });
+// login user
 
 
 
-router.post("/login", async (req, res) => {
-    try {
-      const { email, password } = req.body;
-  
-      // validate
-  
-      if (!email || !password)
-        return res
-          .status(400)
-          .json({ errorMessage: "Please enter all required fields." });
-  
-      const existingUser = await Student.findOne({ email });
-      if (!existingUser)
-        return res.status(401).json({ errorMessage: "Wrong email or password." });
-  
-      const passwordCorrect = await bcrypt.compare(
-        password,
-        existingUser.password
-      );
-      if (!passwordCorrect)
-        return res.status(401).json({ errorMessage: "Wrong email or password." });
-  
-      // sign the token
-  console.log(existingUser);
-      const token = jwt.sign(
-        {
-          user: existingUser._id,
-        },
-        process.env.JWT_SECRET
-      );
-  
-      // send the token in a HTTP-only cookie
-  
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-        })
-        .send();
-    } catch (err) {
-      console.error(err);
-      res.status(500).send();
-    }
-  });
+
+router.post('/login', async(req , res)=>{
+    const { email , password } = req.body;
+     try {
+         const existStudent = await Student.findOne({email});
+         if (!existStudent )return res.status(404).json({message: "Student not found"})
+
+         const isPasswordCorrect  = await bcrypt.compare(password, existStudent.password);
+         if(!isPasswordCorrect) return res.status(400).json({message: "invalid credentials"})
+
+         const token = jwt.sign({email: existStudent.email, id:existStudent._id},'test',{expiresIn:"1h"});
+
+         res.status(200).json({result: existStudent , token});
+     } catch (error) {
+         res.status(500).json({message:"something went wrong."})
+     }
+});
+
+
+
+
 
 
 

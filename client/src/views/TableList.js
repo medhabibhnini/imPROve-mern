@@ -44,10 +44,10 @@ import {
 
 // core components
 import {
-  chartExample1,
-  chartExample2,
-  chartExample3,
-  chartExample4,
+ // chartExample1,
+ // chartExample2,
+  //chartExample3,
+  //chartExample4,
 } from "variables/charts.js";
 
 function Dashboard(props) {
