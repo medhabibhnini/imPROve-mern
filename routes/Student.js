@@ -4,14 +4,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const express = require('express');
 const router = express.Router();
+const config = require (config);
 
-//import auth from '../middleware/auth.js'
+import { token } from 'morgan';
+import auth from '../middleware/auth.js'
 
 //register
 router.post("/",async (req,res)=>{
    
 try {
- const salt = await  bcrypt.genSalt();
+ const salt = await  bcrypt.genSalt(10);
  const passwordHash=req.body.password;
   const password = await bcrypt.hash(passwordHash, salt)
     const username =req.body.username;
@@ -39,7 +41,7 @@ try {
      const savedStudent= await   newStudent.save()
         .then(()=>res.json('student added !'))
         .catch(err => res.status(400).json('Error' + err));
-const token = jwt.sign({email:savedStudent.email, id: savedStudent._id},'test',{expiresIn:"1h"})
+const token = jwt.sign({email:savedStudent.email, id: savedStudent._id},config.get('jwt_secret'),{expiresIn:"1h"})
          
 res.status(200).json({savedStudent, token})
          }
@@ -66,7 +68,7 @@ router.post('/login', async(req , res)=>{
          const isPasswordCorrect  = await bcrypt.compare(password, existStudent.password);
          if(!isPasswordCorrect) return res.status(400).json({message: "invalid credentials"})
 
-         const token = jwt.sign({email: existStudent.email, id:existStudent._id},'test',{expiresIn:"1h"});
+         const token = jwt.sign({email: existStudent.email, id:existStudent._id},config.get('jwt_secret'),{expiresIn:"1h"});
 
          res.status(200).json({result: existStudent , token});
      } catch (error) {
@@ -74,9 +76,52 @@ router.post('/login', async(req , res)=>{
      }
 });
 
+router.post('/reset', async(req,res)=>
+{
+    const {email, password, newpassword, confirmnewpassword } = req.body;
+    try {
+        const existStudent = await Student.findOne({email});
+        if (!existStudent) {
+            return res.status(400).json({ errors: [{ msg: 'user does not exist' }] });
+        }
+        //match password
+        const isMatch = await bcrypt.compare(password, existStudent.password);
+        if (!isMatch) {
+            return res.status(400).json({ errors: [{ msg: ' invalid credentials' }] });
+        }
+        if (newpassword != confirmnewpassword) {
+            return res.status(400).json({ errors: [{ msg: ' invalid confirmation' }] });
+        }
+        // Encrypt password
+
+        const salt = await bcrypt.genSalt(10);
+        existStudent.password = await bcrypt.hash(newpassword, salt);
+        await existStudent.save();
+        const payload = {
+            existStudent: {
+                id: existStudent.id
+            }
+        }
+        const token = jwt.sign(payload,config.get('jwt_secret'),{expiresIn:"1h"},
+        (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server error');
+    }
+});
 
 
+router.post('/logout', (req, res)=>
+{  
+  
 
+   
+
+    
+});
 
 
 

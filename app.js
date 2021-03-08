@@ -47,6 +47,7 @@ app.use(function(err, req, res, next) {
 });
 //connection base donnée
 const uri="mongodb+srv://improve:improve123@cluster0.i9hik.mongodb.net/imporve-mern?retryWrites=true&w=majority";
+ //database url
  mongoose.connect(uri,{useNewUrlParser: true,useCreateIndex: true,useUnifiedTopology: true});
  //
  const connection= mongoose.connection;
