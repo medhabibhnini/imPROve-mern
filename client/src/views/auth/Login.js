@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { data } from 'jquery';
 
 
 
@@ -36,7 +37,7 @@ export default class Login extends Component {
 
     console.log(this.state.data.email);
 
-    axios.post(`http://127.0.0.1:8000/api/auth/login`, {   
+    axios.post(`http://localhost:3000/auth/login/`, {   
   
         email: this.state.data.email,
         password : this.state.data.password,
@@ -44,9 +45,10 @@ export default class Login extends Component {
 
       }).then(response => { 
         localStorage.setItem("token",response.data.access_token);
-        this.props.history.push("/admin/dashboard");
+        this.props.history.push("/home");
         }).catch(exception => {
           toast.error("Invalid email or password !");
+          console.log(data.access_token);
         });
 }
   render(){
@@ -115,23 +117,12 @@ export default class Login extends Component {
                         placeholder="Password"
                       />
                     </div>
-                    <div>
-                      <label className="inline-flex items-center cursor-pointer">
-                        <input
-                          id="customCheckLogin"
-                          type="checkbox"
-                          className="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                        />
-                        <span className="ml-2 text-sm font-semibold text-gray-700">
-                          Remember me
-                        </span>
-                      </label>
-                    </div>
+             
   
                     <div className="text-center mt-6">
                       <button
                         className="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="submit"
+                        type="submit"  onClick={this.handleSubmit}
                       >
                         Sign In
                       </button>
