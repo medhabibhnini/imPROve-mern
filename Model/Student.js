@@ -1,19 +1,19 @@
 const mongoose =require('mongoose');
 const StudentSchema = 
 new mongoose.Schema({
-    firstname:{type :String,required:true},
-lastname:{type : String ,required:true},
-password:{type : String ,required:true},
-username:{type : String ,required:true},
+firstname:{type :String,required:false},
+lastname:{type : String ,required:false},
+password:{type : String ,required:false},
+username:{type : String ,required:false},
 email:{type : String,required: true},
-birthdate: { type : Date, required: true},
+birthdate: { type : Date, required: false},
 sexe:{type : String,required: false},
-cin:{type : String,required: true},
-image:{type : String,required: true},
-    level:{type :String,required:true},
-    university:{type :String,required:true},
-    domain:{type :String,required:true},
-    skills :{type : Array ,"default" :[]}
+cin:{type : String,required: false},
+image:{type : String,required: false},
+level:{type :String,required:false},
+university:{type :String,required:false},
+domain:{type :String,required:false},
+skills :{type : Array ,"default" :[]}
 
 
 },{ timestamps: true,});
