@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 //connection base donnée
-const uri="mongodb+srv://imen:imenmanai12@cluster0.ntiqj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; //database url
+const uri="mongodb+srv://improve:improve123@cluster0.i9hik.mongodb.net/imporve-mern?retryWrites=true&w=majority";
  mongoose.connect(uri,{useNewUrlParser: true,useCreateIndex: true,useUnifiedTopology: true});
  //
  const connection= mongoose.connection;
