@@ -45,7 +45,7 @@ export default class Login extends Component {
 
       }).then(response => { 
         localStorage.setItem("token",response.data.access_token);
-        this.props.history.push("/admin/dashboard");
+        this.props.history.push("/home");
         }).catch(exception => {
           toast.error("Invalid email or password !");
           console.log(data.access_token);
