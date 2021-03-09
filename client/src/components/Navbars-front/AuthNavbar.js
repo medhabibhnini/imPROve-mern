@@ -54,7 +54,7 @@ function Navbar(props) {
             id="example-navbar-warning"
           >
             
-            <ul hidden={logi} className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <ul hidden={!session.active && logi} className="flex flex-col lg:flex-row list-none lg:ml-auto">
         
             <Link to="/auth/register">
               <li className="flex items-center">
