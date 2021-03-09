@@ -39,7 +39,7 @@ function UserProfile() {
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Add Coach</h5>
+                <h5 className="title">Add Coach yaatek naml</h5>
               </CardHeader>
               <CardBody>
                 <Form>

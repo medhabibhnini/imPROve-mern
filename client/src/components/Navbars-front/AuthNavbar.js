@@ -1,10 +1,29 @@
+import { USER_LOADING } from "actions/types";
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
+import {Session} from 'bc-react-session';
+import PropTypes from "prop-types";
 
 
-
-export default function Navbar(props) {
+function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const logouta = true;
+  const loggedin = false;
+  const  onLogoutClick = (e) => {
+    e.preventDefault();
+    props.logoutUser();
+    Session.destroy();
+  };
+  
+ 
+  if(!USER_LOADING)
+  {
+    loggedin = true;
+  }
+
+ 
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -32,8 +51,8 @@ export default function Navbar(props) {
             id="example-navbar-warning"
           >
             
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-            
+            <ul hidden={!loggedin} className="flex flex-col lg:flex-row list-none lg:ml-auto">
+        
             <Link to="/auth/register">
               <li className="flex items-center">
                 <button
@@ -55,9 +74,36 @@ export default function Navbar(props) {
               </li>
               </Link>
             </ul>
+            <ul hidden={loggedin} className="flex flex-col lg:flex-row list-none lg:ml-auto">
+        
+            <Link >
+              <li className="flex items-center">
+                <button
+                  className="border-white border-2 bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded-lg shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+                  type="button"onClick={onLogoutClick}
+                >
+                  <i className="fas fa-user"></i> Logout
+                </button>
+              </li>
+              </Link>
+           
+            </ul>
           </div>
         </div>
       </nav>
     </>
   );
 }
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Navbar);

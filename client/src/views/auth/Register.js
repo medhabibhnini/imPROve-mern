@@ -39,7 +39,7 @@ export default class Register extends Component {
 
     console.log(this.state.data);
 
-    axios.post(`http://localhost:3000/auth`, {   
+    axios.post(`http://localhost:3000/api/students/register`, {   
         
         firstname: this.state.data.firstname,
         lastname: this.state.data.lastname,
@@ -55,7 +55,7 @@ export default class Register extends Component {
         domain:this.state.data.domain,
 
       }).then(response => { 
-        this.props.history.push("/auth/login");
+        window.open("/auth/login");
         }).catch(errors => {
               console.log(errors);
         });
@@ -191,9 +191,9 @@ export default class Register extends Component {
                         placeholder="Confirm password"
                       />
                     </div>*/
-  }
+    }
   
-  <div className="relative w-full mb-3">
+           {/*           <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-gray-700 text-xs font-bold mb-2"
                         htmlFor="grid-password"
@@ -302,7 +302,7 @@ export default class Register extends Component {
                         className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                         placeholder="domaine"
                       />
-                    </div>
+  </div>*/}
                     <div className="text-center mt-6">
                       <button
                         className="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"

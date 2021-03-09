@@ -4,11 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { data } from 'jquery';
+import {Session} from 'bc-react-session';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 
-
-
-export default class Login extends Component {
+class Login extends Component {
 
   constructor(props){
     super(props);  
@@ -24,7 +26,24 @@ export default class Login extends Component {
     
     }
   }
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/home");
+    }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/home");
+    }
+
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
   handleChange = input=> e => {
     const data = {...this.state.data}
     data[e.target.name] = e.target.value;
@@ -34,23 +53,22 @@ export default class Login extends Component {
   handleSubmit = event => {
     
     event.preventDefault();
-
-    console.log(this.state.data.email);
-
-    axios.post(`http://localhost:3000/auth/login/`, {   
-  
-        email: this.state.data.email,
-        password : this.state.data.password,
     
 
-      }).then(response => { 
-        localStorage.setItem("token",response.data.access_token);
-        this.props.history.push("/home");
-        }).catch(exception => {
-          toast.error("Invalid email or password !");
-          console.log(data.access_token);
-        });
+    const userData = {
+      email: this.state.data.email,
+      password: this.state.data.password
+    };
+    this.props.loginUser(userData);
+    Session.start({ 
+      payload: {
+          // (optional) any info you want to save on the persisten session
+      },
+      expiration: 86400000,
+    });
+
 }
+
   render(){
     return (
       <>
@@ -122,7 +140,7 @@ export default class Login extends Component {
                     <div className="text-center mt-6">
                       <button
                         className="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="submit"  onClick={this.handleSubmit}
+                        type="submit"   onClick={this.handleSubmit}
                       >
                         Sign In
                       </button>
@@ -153,3 +171,18 @@ export default class Login extends Component {
     );
   }
 }
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
