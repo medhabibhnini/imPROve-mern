@@ -12,37 +12,27 @@ const validateLoginInput = require("../../validation/login");
 // Load student model
 const Student = require("../../Model/Student.js");
 
-// @route POST api/students/register
-// @desc Register student
+// @route POST api/users/register
+// @desc Register user
 // @access Public
 router.post("/register", (req, res) => {
   // Form validation
 
-//  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check validation
- /* if (!isValid) {
+  if (!isValid) {
     return res.status(400).json(errors);
-  }*/
+  }
 
-  Student.findOne({ email: req.body.email }).then(student => {
-    if (student) {
-      return res.status(400).json({ email: "Email already exists" });
-    } else {
+  Student.findOne({ email: req.body.email }).then(students => {
+   
       const newStudent = new Student({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
         password: req.body.password,
-        username:req.body.username,
-        firstname:req.body.firstname,
-        lastname:req.body.lastname,
-        sexe:req.body.sexe,
-        birthdate:req.body.birthdate,
-        cin :req.body.cin,
-        image : req.body.image,
-        level :req.body.level,
-        university:req.body.university,
-        domain : req.body.domain,
-        skills :req.body.skills
+
       });
 
       // Hash password before saving in database
@@ -50,21 +40,15 @@ router.post("/register", (req, res) => {
         bcrypt.hash(newStudent.password, salt, (err, hash) => {
           if (err) throw err;
           newStudent.password = hash;
-          console.log(newStudent);
           newStudent
-            .save().then(response => { 
-              window.open("/auth/login");
-              }).catch(errors => {
-                    console.log(errors);
-              })
-            .then(student => res.json(student,'student added !'))
-            .catch(err => res.status(400).json('Error' + err));
+            .save()
+           
+            .catch(err => console.log(err));
         });
       });
-    }
   });
 });
-
+ 
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public

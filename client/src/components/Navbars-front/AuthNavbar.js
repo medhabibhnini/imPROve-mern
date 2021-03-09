@@ -5,25 +5,28 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import {Session} from 'bc-react-session';
 import PropTypes from "prop-types";
+import { startSession } from "mongoose";
 
 
 function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const logouta = true;
-  const loggedin = false;
+ 
   const  onLogoutClick = (e) => {
     e.preventDefault();
     props.logoutUser();
     Session.destroy();
   };
   
- 
-  if(!USER_LOADING)
+  const session = Session.get();
+  console.log(session.active);
+ const pa = window.location.href;
+ let logi=false;
+ console.log(pa);
+  if (pa==="http://localhost:5000/auth/login" || pa==="http://localhost:5000/home")
   {
-    loggedin = true;
+    logi=true;
   }
-
- 
+  
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -51,7 +54,7 @@ function Navbar(props) {
             id="example-navbar-warning"
           >
             
-            <ul hidden={!loggedin} className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <ul hidden={logi} className="flex flex-col lg:flex-row list-none lg:ml-auto">
         
             <Link to="/auth/register">
               <li className="flex items-center">
@@ -74,7 +77,7 @@ function Navbar(props) {
               </li>
               </Link>
             </ul>
-            <ul hidden={loggedin} className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <ul hidden={!session.active} className="flex flex-col lg:flex-row list-none lg:ml-auto">
         
             <Link >
               <li className="flex items-center">
