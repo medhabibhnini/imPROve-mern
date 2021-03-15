@@ -50,15 +50,16 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
-function Dashboard(props) {
+function Icons(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
   return (
     <>
+    yaatek nam
      </>
   );
 }
 
-export default Dashboard;
+export default Icons;

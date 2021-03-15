@@ -3,7 +3,7 @@ const StudentSchema =
 new mongoose.Schema({
 firstname:{type :String,required:false},
 lastname:{type : String ,required:false},
-password:{type : String ,required:false},
+password:{type : String ,required:true},
 username:{type : String ,required:false},
 email:{type : String,required: true},
 birthdate: { type : Date, required: false},
