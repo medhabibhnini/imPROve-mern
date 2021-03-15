@@ -21,6 +21,7 @@ import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import UserProfile from "views/UserProfile.js";
+import ListUser from "views/ListUser.js";
 
 var routes = [
   {
@@ -36,7 +37,7 @@ var routes = [
     name: "Courses Management",
     rtlName: "الرموز",
     icon: "tim-icons icon-atom",
-    component: Icons,
+    component: ListUser,
     layout: "/admin",
   },
   {

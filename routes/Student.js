@@ -101,7 +101,16 @@ router.post("/login", async (req, res) => {
       res.status(500).send();
     }
   });
-
+ 
+  router.route("/tables").get((req, res) => {
+    Student.find((error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+});
 
 
 module.exports = router;
